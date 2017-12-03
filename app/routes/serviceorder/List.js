@@ -1,4 +1,4 @@
-import { HtmlElement, Section, FlexRow, TextField, Link, LinkButton, Repeater, Rescope, Tab, Select } from 'cx/widgets';
+import { HtmlElement, Section, FlexRow, TextField, Link, LinkButton, Repeater, Rescope, Tab, Select, ValidationGroup, Button } from 'cx/widgets';
 import { Rectangle, Svg, Text } from "cx/svg";
 import {
   CategoryAxis,
@@ -16,6 +16,7 @@ import "cx/widgets/icons";
 
 import { bind, expr } from 'cx/ui';
 import React from "react"
+import TFlexRow from '../../components/layout/TFlexRow'
 
 const Lol = React.createClass({
     render: function() {
@@ -97,10 +98,10 @@ export default (<cx>
             <div>
 
                 
-
-                <GenerecContainer firstName:bind="$page.form.firstName">
+                {/* 
+                <GenerecContainer firstName:bind="form.firstName">
                     <hr/>
-                    <TextArea content:bind="$page.form.firstName"/>
+                    <TextArea content:bind="form.firstName"/>
                     <hr/>
                 
                     <LineChart
@@ -110,28 +111,51 @@ export default (<cx>
                     />
                     <hr/>
                     <Lol/>
-                </GenerecContainer>
-
+                </GenerecContainer> 
+                */}
+                <ValidationGroup
+                    layout={{ type: LabelsTopLayout, mod: 'stretch', vertical: true }}
+                    invalid:bind="invalid">
+                    
                 <FlexRow spacing target="desktop">
-                    <div style="flex: 1;">
-                        <Select value:bind="$page.form.title" label="Title" style={{ width: "100%" }}>
+
+                    <TFlexRow bgColor="red">
+                        <Select value:bind="form.title" label="Title" style={{ width: "100%" }}>
                             <option value="Mr">Mr.</option>
                             <option value="Mrs">Mrs.</option>
                         </Select>
-                    </div>
-                    <div style="flex: 1;">
-                        <TextField value:bind="$page.form.firstName" label="Name" placeholder="First Name" style={{ width: "100%" }} />
-                    </div>
-                    <div style="flex: 1;">
-                        <TextField value:bind="$page.form.lastName"  label="Last Name" placeholder="Last Name" style={{ width: "100%" }}/>
-                    </div>
+                    </TFlexRow>
+
+                    <TFlexRow  bgColor="green">
+                    <TextField value: bind="form.firstName" label="Name" placeholder="First Name" style={{ width: "100%" }}
+                        validationMode="help-block" reactOn="enter blur change"
+                        onValidate={(v) => { if (v != 'Cx') return 'Oops, wrong answer!' }}
+                    />
+                    </TFlexRow>
+                    <TFlexRow>
+                        <TextField value:bind="form.lastName"  label="Last Name" placeholder="Last Name" style={{ width: "100%" }}/>
+                    </TFlexRow>
+
                 </FlexRow>
 
-                <div layout={{ type: LabelsTopLayout, mod: 'stretch' }}>
-                    <TextField value:bind="$page.form.street" label="Address" placeholder="Street" style={{ width: '150px' }} />
-                    <TextField value:bind="$page.form.city" placeholder="City" style={{ width: '150px' }}/>
-                    <TextField value:bind="$page.form.zip" placeholder="Zip" style={{ width: '70px' }}/>
-                </div>
+                <FlexRow spacing target="desktop">
+                    <TFlexRow>
+                        <TextField value: bind="form.street" label="Address" placeholder="Street" style={{ width: "100%" }} />
+                    </TFlexRow>
+
+                    <TFlexRow>
+                        <TextField value: bind="form.city" label="City" placeholder="City" style={{ width: "100%" }}/>
+                    </TFlexRow>
+
+                    <TFlexRow>
+                        <TextField value: bind="form.zip" label="Zip" placeholder="Zip"  style={{ width: "100%" }}/>
+                    </TFlexRow>
+
+                    <TFlexRow>
+                        <TextField value: bind="form.number" label="Number" placeholder="Number"  style={{ width: "100%" }}/>
+                    </TFlexRow>
+                </FlexRow>
+                </ValidationGroup>
 
                 <br />
 
@@ -169,7 +193,14 @@ export default (<cx>
 
 
             </div>
-
+                <br/>
+                <Button
+                    mod="primary"
+                    onClick="onSave"
+                    disabled:bind="invalid"
+                >
+                    Save
+               </Button>
         </Section >
 
 

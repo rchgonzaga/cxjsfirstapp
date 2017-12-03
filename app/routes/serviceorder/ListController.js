@@ -6,45 +6,39 @@ let lastQueryId = 0
 
 export default class extends Controller {
 
-      // path to form in the store
-      formStorage = '$root.$page.$page.form.'
+      constructor(props){
+            super(props)
+            console.log(props)
+      }
 
       onInit() {
 
             this.store.set('nome', 'Rafael Gonzaga')
 
-            this.store.set(`${this.formStorage}firstName`, '#3#3#3#3##333#')
-            this.store.set(`${this.formStorage}loaded`, 'true')
+            this.store.set('form.firstName', '#3#3#3#3##333#')
+            this.store.set('form.loaded', 'true')
 
             let me = this
+
             setTimeout(function () {
-                  me.store.set(`${me.formStorage}firstName`, 'Rafael Gonzaga')
-                  me.store.set(`${me.formStorage}loaded`, 'false')
+                  me.store.set('form.firstName', 'Rafael Gonzaga')
+                  me.store.set('form.loaded', 'false')
             }, 3000)
 
             console.log("------------------ RAFAEL ------------------------")
             //console.log(this.store)
-            console.log('Escopo geral', this.store.get('$root.$page'))
+            console.log('Escopo geral', this.store.get('form'))
             console.log('Data', this.store.getData())
             console.log("------------------ RAFAEL ------------------------")
       }
 
-      load() {
-            let q = this.store.get('search')
-            this.store.set('status', 'loading')
-            let queryId = ++lastQueryId
-            queryUsers(q)
-                  .then(data => {
-                        //only the last query matters
-                        if (queryId === lastQueryId) {
-                              this.store.set('results', data)
-                              this.store.set('status', 'ok')
-                        }
-                  })
-                  .catch(() => {
-                        if (queryId === lastQueryId) {
-                              this.store.set('status', 'error')
-                        }
-                  })
+      onSave() {
+            let { invalid, form } = this.store.getData()
+
+            //let userId = this.store.get('$root.$route.userId')
+
+            console.log(form)
+            console.log(invalid)
       }
+
 }
