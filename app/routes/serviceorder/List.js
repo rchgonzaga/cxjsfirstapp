@@ -116,17 +116,17 @@ export default (<cx>
                 <ValidationGroup
                     layout={{ type: LabelsTopLayout, mod: 'stretch', vertical: true }}
                     invalid:bind="invalid">
-                    
+
                 <FlexRow spacing target="desktop">
 
-                    <TFlexRow bgColor="red">
+                    <TFlexRow>
                         <Select value:bind="form.title" label="Title" style={{ width: "100%" }}>
                             <option value="Mr">Mr.</option>
                             <option value="Mrs">Mrs.</option>
                         </Select>
                     </TFlexRow>
 
-                    <TFlexRow  bgColor="green">
+                    <TFlexRow>
                     <TextField value: bind="form.firstName" label="Name" placeholder="First Name" style={{ width: "100%" }}
                         validationMode="help-block" reactOn="enter blur change"
                         onValidate={(v) => { if (v != 'Cx') return 'Oops, wrong answer!' }}
