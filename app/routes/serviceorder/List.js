@@ -1,4 +1,4 @@
-import { HtmlElement, Section, FlexRow, TextField, Link, LinkButton, Repeater, Rescope, Tab, Select, ValidationGroup, Button } from 'cx/widgets';
+import { HtmlElement, Section, FlexRow, TextField, Link, LinkButton, Repeater, Rescope, Tab, Select, ValidationGroup, Button, Grid } from 'cx/widgets';
 import { Rectangle, Svg, Text } from "cx/svg";
 import {
   CategoryAxis,
@@ -10,7 +10,7 @@ import {
   LineGraph
 } from "cx/charts";
 
-import { LabelsTopLayout, VDOM } from "cx/ui";
+import { LabelsTopLayout, VDOM, KeySelection } from "cx/ui";
 import Controller from './ListController';
 import "cx/widgets/icons";
 
@@ -76,7 +76,7 @@ class GenerecContainer extends React.Component {
   }
   render() {
     return (
-      <div onClick={this.handleClick} style={{ width: "100%", backgroundColor:'#0080FF', padding: "5px" }}> 
+      <div onClick={this.handleClick} style={{ width: "100%", padding: "5px" }}> 
         aaa {this.state.firstName} bbb 
         {this.props.children}
       </div>
@@ -90,117 +90,155 @@ export default (<cx>
     <h2 putInto="header"> Service Order</h2>
 
     <Rescope bind="$page" controller={Controller}>
-        <Section
-            mod="well"
-            title="Classic"
-            style="width: 100%">
+        <Section mod="well" title="Classic" style="width: 100%; height: 100%;">
 
-            <div>
+            <FlexRow spacing target="tablet">
+                <div style="flex: 1; height: 100%;">
 
-                
-                {/* 
-                <GenerecContainer firstName:bind="form.firstName">
-                    <hr/>
-                    <TextArea content:bind="form.firstName"/>
-                    <hr/>
-                
-                    <LineChart
-                        chartStyle="width: 300px; height: 200px; background: white;"
-                        lineStyle="stroke: red"
-                        data={Array.from({length: 100}, (_, x) => ({ x, y: 75 - 50 * Math.random() }))}
-                    />
-                    <hr/>
-                    <Lol/>
-                </GenerecContainer> 
-                */}
-                <ValidationGroup
-                    layout={{ type: LabelsTopLayout, mod: 'stretch', vertical: true }}
-                    invalid:bind="invalid">
-
-                <FlexRow spacing target="desktop">
-
-                    <TFlexRow>
-                        <Select value:bind="form.title" label="Title" style={{ width: "100%" }}>
-                            <option value="Mr">Mr.</option>
-                            <option value="Mrs">Mrs.</option>
-                        </Select>
-                    </TFlexRow>
-
-                    <TFlexRow>
-                    <TextField value: bind="form.firstName" label="Name" placeholder="First Name" style={{ width: "100%" }}
-                        validationMode="help-block" reactOn="enter blur change"
-                        onValidate={(v) => { if (v != 'Cx') return 'Oops, wrong answer!' }}
-                    />
-                    </TFlexRow>
-                    <TFlexRow>
-                        <TextField value:bind="form.lastName"  label="Last Name" placeholder="Last Name" style={{ width: "100%" }}/>
-                    </TFlexRow>
-
-                </FlexRow>
-
-                <FlexRow spacing target="desktop">
-                    <TFlexRow>
-                        <TextField value: bind="form.street" label="Address" placeholder="Street" style={{ width: "100%" }} />
-                    </TFlexRow>
-
-                    <TFlexRow>
-                        <TextField value: bind="form.city" label="City" placeholder="City" style={{ width: "100%" }}/>
-                    </TFlexRow>
-
-                    <TFlexRow>
-                        <TextField value: bind="form.zip" label="Zip" placeholder="Zip"  style={{ width: "100%" }}/>
-                    </TFlexRow>
-
-                    <TFlexRow>
-                        <TextField value: bind="form.number" label="Number" placeholder="Number"  style={{ width: "100%" }}/>
-                    </TFlexRow>
-                </FlexRow>
-                </ValidationGroup>
-
-                <br />
-
-                <div style="padding-left:10px;white-space:nowrap;">
-                    <Tab tab="tab1" value:bind="$page.tab" mod="classic" default>Tab 1</Tab>
-                    <Tab tab="tab2" value:bind="$page.tab" mod="classic">Tab 2</Tab>
-                    <Tab tab="tab3" value:bind="$page.tab" mod="classic">Tab 3</Tab>
-                    <Tab tab="tab4" value:bind="$page.tab" mod="classic" disabled>Tab 4</Tab>
-                </div>
-
-                <div style="border: 1px solid lightgray; background: white; padding: 20px">
+{/* 
+                    <GenerecContainer firstName:bind="form.firstName">
+                        <hr/>
+                        <TextArea content:bind="form.firstName"/>
+                        <hr/>
                     
-                    <div visible:expr="{$page.tab}=='tab1'">
-                        <FlexRow spacing target="desktop">
-                            <div style="flex: 1; height: 30px; background: lightgray;" />
-                            <div style="flex: 1; height: 30px; background: lightgray;" />
-                            <div style="flex: 1; height: 30px; background: lightgray;" />
-                        </FlexRow>
-                    </div>
+                        <LineChart
+                            chartStyle="width: 300px; height: 200px; background: white;"
+                            lineStyle="stroke: red"
+                            data={Array.from({length: 100}, (_, x) => ({ x, y: 75 - 50 * Math.random() }))}
+                        />
+                        <hr/>
+                        <Lol/>
+                    </GenerecContainer>  */}
 
-                    <div visible:expr="{$page.tab}=='tab2'">
-                        asdasdas
-                    </div>
-                    
-                    <div visible:expr="{$page.tab}=='tab3'">
-                        Tab 3
-                    </div>
-
-                    <div visible:expr="{$page.tab}=='tab4'">
-                        Tab 4
-                    </div>
-                    
-                </div >
-
-
-
+                    <h4 style={{ height: "31px" }}>&nbsp;</h4>
+                <Grid records:bind='form.records'
+                    style={{width: "100%"}}
+                    selection={{ type: KeySelection, bind: 'form.id', keyField: 'id'}}
+                    columns={[
+                        { header: 'Name', field: 'fullName', sortable: true },
+                        { header: 'Phone', field: 'phone' },
+                        { header: 'City', field: 'city', sortable: true },
+                        { header: 'Notified', field: 'notified', sortable: true, value: { expr: '{$record.notified} ? "Yes" : "No"' } },
+                        { header: 'Actions', items: (<cx>
+                            <Button data-id:bind='$record.id' onClick={(e, {controller, data}) => { controller.removeRecord(data.data.id)}}>Remove</Button>
+                            </cx>)
+                        }
+                    ]}
+                />
             </div>
-                <br/>
-                <Button
-                    mod="primary"
-                    onClick="onSave"
-                    disabled:bind="invalid"
-                >
-                    Save
-               </Button>
+                <div style="flex: 2; height: 100%;">
+                
+                    <div>
+
+                    <form>
+                        <ValidationGroup
+                            layout={{ type: LabelsTopLayout, mod: 'stretch', vertical: true }}
+                            invalid:bind="invalid">
+
+                        <FlexRow spacing target="desktop">
+
+                            <TFlexRow width="100px">
+                                <TextField label="ID" value:bind="form.id"
+                                    icon="search" 
+                                    style={{ width: "100%" }}
+                                    disabled:bind="form.idmode"
+                                    onBlur="onBlurid" />
+                            </TFlexRow>
+
+                            <TFlexRow>
+                                <Select value:bind="form.title" label="Title" style={{ width: "100%" }}>
+                                    <option value="Mr">Mr.</option>
+                                    <option value="Mrs">Mrs.</option>
+                                </Select>
+                            </TFlexRow>
+
+                            <TFlexRow>
+                                <TextField value: bind="form.firstName" label="Name" placeholder="First Name" style={{ width: "100%" }}
+                                    validationMode="help-block" reactOn="enter blur change"
+                                    onValidate={(v) => { if (v != 'Cx') return 'Oops, wrong answer!' }}
+                                />
+                            </TFlexRow>
+
+                            <TFlexRow>
+                                <TextField value:bind="form.lastName"  label="Last Name" placeholder="Last Name" style={{ width: "100%" }}/>
+                            </TFlexRow>
+
+                        </FlexRow>
+
+                        <FlexRow spacing target="desktop">
+                            <TFlexRow>
+                                <TextField value: bind="form.street" label="Address" placeholder="Street" style={{ width: "100%" }} />
+                            </TFlexRow>
+
+                            <TFlexRow>
+                                <TextField value: bind="form.city" label="City" placeholder="City" style={{ width: "100%" }}/>
+                            </TFlexRow>
+
+                            <TFlexRow>
+                                <TextField value: bind="form.zip" label="Zip" placeholder="Zip"  style={{ width: "100%" }}/>
+                            </TFlexRow>
+
+                            <TFlexRow>
+                                <TextField value: bind="form.number" label="Number" placeholder="Number"  style={{ width: "100%" }}/>
+                            </TFlexRow>
+                        </FlexRow>
+                        </ValidationGroup>
+
+                        <br />
+
+                        <div style="padding-left:10px;white-space:nowrap;">
+                            <Tab tab="tab1" value:bind="$page.tab" mod="classic" default>Tab 1</Tab>
+                            <Tab tab="tab2" value:bind="$page.tab" mod="classic">Tab 2</Tab>
+                            <Tab tab="tab3" value:bind="$page.tab" mod="classic">Tab 3</Tab>
+                            <Tab tab="tab4" value:bind="$page.tab" mod="classic" disabled>Tab 4</Tab>
+                        </div>
+
+                        <div style="border: 1px solid lightgray; background: white; padding: 20px">
+                            
+                            <div visible:expr="{$page.tab}=='tab1'">
+                                <FlexRow spacing target="desktop">
+                                    <div style="flex: 1; height: 30px; background: lightgray;" />
+                                    <div style="flex: 1; height: 30px; background: lightgray;" />
+                                    <div style="flex: 1; height: 30px; background: lightgray;" />
+                                </FlexRow>
+                            </div>
+
+                            <div visible:expr="{$page.tab}=='tab2'">
+                                asdasdas
+                            </div>
+                            
+                            <div visible:expr="{$page.tab}=='tab3'">
+                                Tab 3
+                            </div>
+
+                            <div visible:expr="{$page.tab}=='tab4'">
+                                Tab 4
+                            </div>
+                            
+                        </div >
+                        <br/>
+                        <div>
+                        <Button
+                            mod="primary"
+                            onClick="onSave"
+                            disabled:bind="invalid"
+                        >
+                            Save
+                        </Button>
+                        &nbsp;
+                        <Button
+                            mod="primary"
+                            onClick="onSubmit"
+                            submit
+                        >Submit</Button>
+                        </div>
+                    </form >
+
+
+                    </div >
+                </div>
+            </FlexRow>
+
         </Section >
 
 
