@@ -1,4 +1,4 @@
-import { HtmlElement, Section, FlexRow, TextField, Link, LinkButton, Repeater, Rescope, Tab, Select, ValidationGroup, Button, Grid } from 'cx/widgets';
+import { MsgBox,HtmlElement, Section, FlexRow, TextField, Link, LinkButton, Repeater, Rescope, Tab, Select, ValidationGroup, Button, Grid } from 'cx/widgets';
 import { Rectangle, Svg, Text } from "cx/svg";
 import {
   CategoryAxis,
@@ -109,8 +109,42 @@ export default (<cx>
                         <hr/>
                         <Lol/>
                     </GenerecContainer>  */}
+                    
+                    <div style={{ height: "39px" }}>
+                        <Button pressed:bind="form.toggle.1.active" 
+                            mod:bind="form.toggle.1.color" 
+                            style={{ top: "0px;"}} 
+                            onClick={(e, { controller }) => { controller.handleToggle(1); }}>
+                            Id
+                        </Button>
+                        <Button pressed:bind="form.toggle.2.active" 
+                            mod:bind="form.toggle.2.color" 
+                            style={{ top: "0px;"}} 
+                            onClick={(e, { controller }) => { controller.handleToggle(2); }}>
+                            Ticket
+                        </Button>
+                        <Button pressed:bind="form.toggle.3.active"
+                            mod:bind="form.toggle.3.color" 
+                            style={{ top: "0px;"}} 
+                            onClick={(e, { controller }) => { controller.handleToggle(3); }}>
+                            Descr
+                        </Button>
+                        <Button pressed:bind="form.toggle.4.active" 
+                            mod:bind="form.toggle.4.color" 
+                            style={{ top: "0px;"}} 
+                            onClick={(e, { controller }) => { controller.handleToggle(4); }}>
+                            Nome
+                        </Button>
+                        <Button pressed:bind="form.toggle.5.active"  
+                            mod:bind="form.toggle.5.color" 
+                            style={{ top: "0px;"}} 
+                            onClick={(e, { controller }) => { controller.handleToggle(5); }}>
+                            Dt Entrada
+                        </Button>
+                    </div>
 
-                    <h4 style={{ height: "31px" }}>&nbsp;</h4>
+
+
                 <Grid records:bind='form.records'
                     style={{width: "100%"}}
                     selection={{ type: KeySelection, bind: 'form.id', keyField: 'id'}}

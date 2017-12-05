@@ -28,13 +28,10 @@ export default class extends Controller {
             }, 4000)
 
             console.log("------------------ RAFAEL ------------------------")
-            //console.log(this.store)
+
             console.log('Escopo geral', this.store.get('form'))
             console.log('Data', this.store.getData())
             console.log("------------------ RAFAEL ------------------------")
-
-
-
 
 
             this.store.set('form.records', Array.from({ length: 5 }).map((v, i) => ({
@@ -53,6 +50,38 @@ export default class extends Controller {
                   this.store.set('form.add', false);
             });
 
+
+            this.store.set('form.toggle.1.active', true)
+            this.store.set('form.toggle.1.color', "primary")
+
+            this.store.set('form.toggle.2.active', false)
+            this.store.set('form.toggle.2.color', "")
+            
+            this.store.set('form.toggle.3.active', false)
+            this.store.set('form.toggle.3.color', "")
+
+            this.store.set('form.toggle.4.active', false)
+            this.store.set('form.toggle.4.color', "")
+
+            this.store.set('form.toggle.5.active', false)
+            this.store.set('form.toggle.5.color', "")
+            
+
+      }
+
+      handleToggle(position){
+            
+            for (let index = 1; index < 6; index++) {
+
+                  if(position == index){
+                        this.store.set(`form.toggle.${index}.active`, true)
+                        this.store.set(`form.toggle.${index}.color`, "primary") 
+                  } else {
+                        this.store.set(`form.toggle.${index}.active`, false)
+                        this.store.set(`form.toggle.${index}.color`, "")  
+                  }
+            }
+            
       }
 
       onSave() {
