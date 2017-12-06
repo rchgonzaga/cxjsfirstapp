@@ -2,8 +2,6 @@ import { Store } from 'cx/data';
 import { Url, History, Widget, startAppLoop } from 'cx/ui';
 import { Timing, Debug } from 'cx/util';
 
-import 'semantic-ui-css/semantic.min.css';
-
 //css
 import "./index.scss";
 

@@ -17,6 +17,7 @@ import "cx/widgets/icons";
 import { bind, expr } from 'cx/ui';
 import React from "react"
 import TFlexRow from '../../components/layout/TFlexRow'
+import { Dropdown, Form } from 'semantic-ui-react'
 
 const Lol = React.createClass({
     render: function() {
@@ -84,6 +85,7 @@ class GenerecContainer extends React.Component {
   }
 }
 
+const stateOptions = [{ key: 'AL', value: 'AL', text: 'Alabama' }, { key: 'BR', value: 'BR', text: 'Barazzil' }]
 
 
 export default (<cx>
@@ -159,6 +161,9 @@ export default (<cx>
                         }
                     ]}
                 />
+                
+                <Dropdown placeholder='State' search selection options={stateOptions} />
+
             </div>
                 <div style="flex: 2; height: 100%;">
                 
@@ -187,7 +192,7 @@ export default (<cx>
                             </TFlexRow>
 
                             <TFlexRow>
-                                <TextField value: bind="form.firstName" label="Name" placeholder="First Name" style={{ width: "100%" }}
+                                <TextField value:bind="form.firstName" label="Name" placeholder="First Name" style={{ width: "100%" }}
                                     validationMode="help-block" reactOn="enter blur change"
                                     onValidate={(v) => { if (v != 'Cx') return 'Oops, wrong answer!' }}
                                 />
@@ -238,7 +243,25 @@ export default (<cx>
                             </div>
 
                             <div visible:expr="{$page.tab}=='tab2'">
-                                asdasdas
+
+                                <Form>
+                                    <Form.Group>
+                                        <Form.Input label='First name' placeholder='First Name' width={6} value:bind="form.firstName" />
+                                        <Form.Input label='Middle Name' placeholder:bind="form.firstName" width={4} />
+                                        <Form.Input label='Last Name' placeholder='Last Name' width={6} />
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Input placeholder='2 Wide' width={2} />
+                                        <Form.Input placeholder='12 Wide' width={12} />
+                                        <Form.Input placeholder='2 Wide' width={2} />
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Input placeholder='8 Wide' width={8} />
+                                        <Form.Input placeholder='6 Wide' width={6} />
+                                        <Form.Input placeholder='2 Wide' width={2} />
+                                    </Form.Group>
+                                </Form>
+                                
                             </div>
                             
                             <div visible:expr="{$page.tab}=='tab3'">
