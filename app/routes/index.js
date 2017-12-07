@@ -9,6 +9,7 @@ import Dashboard from './dashboard';
 import UserRoutes from './users';
 
 import ServiceOrderRoutes from './serviceorder';
+import ProductionEstimativeRoutes from './productionestimative';
 
 export default <cx>
     <Sandbox
@@ -32,6 +33,8 @@ export default <cx>
        <UserRoutes/>
 
        <ServiceOrderRoutes/>
+
+        <ProductionEstimativeRoutes/>
        
        <Section title="Page Not Found" mod="card">
           This page doesn't exists. Please check your URL.

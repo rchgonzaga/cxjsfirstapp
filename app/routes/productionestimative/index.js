@@ -1,9 +1,11 @@
-import { HtmlElement } from 'cx/widgets';
+import { HtmlElement, Route } from 'cx/widgets';
 
-import Controller from './Controller';
+import List from './List';
 
-export default <cx>
-    <div controller={Controller}>
-    
-    </div>
-</cx>
+export default (
+    <cx>
+        <Route route="~/productionestimative" url: bind="url">
+            <List />
+        </Route>
+    </cx >
+)
