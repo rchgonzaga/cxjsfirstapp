@@ -10,8 +10,6 @@ import UserRoutes from './users';
 
 import ServiceOrderRoutes from './serviceorder';
 
-
-
 export default <cx>
     <Sandbox
        key:bind="url"

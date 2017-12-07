@@ -27,6 +27,11 @@ export default class extends Controller {
                   me.store.set('form.idmode', true)
             }, 4000)
 
+            PubSub.subscribe('updateInputs', (prop, a) => {
+                  console.log('*************************: ', prop, a)
+                  this.store.set('form.firstName', a)
+            });
+
             console.log("------------------ RAFAEL ------------------------")
 
             console.log('Escopo geral', this.store.get('form'))
@@ -81,7 +86,7 @@ export default class extends Controller {
                         this.store.set(`form.toggle.${index}.color`, "")  
                   }
             }
-            
+
       }
 
       onSave() {

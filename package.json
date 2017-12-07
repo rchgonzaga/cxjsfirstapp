@@ -42,6 +42,7 @@
     "cx-react": "^17.4.1",
     "cx-redux": "^17.5.0",
     "cx-theme-material": "^17.4.5",
+    "pubsub-js": "^1.5.7",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "redux": "^3.6.0",

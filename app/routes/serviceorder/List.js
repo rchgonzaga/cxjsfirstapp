@@ -18,13 +18,72 @@ import { bind, expr } from 'cx/ui';
 import React from "react"
 import TFlexRow from '../../components/layout/TFlexRow'
 import { Dropdown, Form } from 'semantic-ui-react'
+import PubSub from 'pubsub-js'
 
-const Lol = React.createClass({
-    render: function() {
-        console.log(this)
-        return <div>Hello, haters!</div>;
+
+
+
+class Lol extends React.Component {
+
+    constructor(props) {
+        super(props)
+
+        console.log(' -----------------: ', props)
+
+        this.state = props
+
+        let me = this
+        setTimeout(function () {
+            me.setState({ cross: 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAA' });
+        }, 8000)
+
+        PubSub.subscribe('updateInputs', (prop, a) => {
+            console.log('*************************: ', prop, a)
+            this.setState({ cross: a })
+        });
     }
-})
+    
+    componentWillReceiveProps(nextProps) {
+        this.setState({ cross: nextProps.cross });
+        console.log(' 1 - %%%%%%%%%%%%%%%%%%: ', this.state)
+        console.log(' 2 - %%%%%%%%%%%%%%%%%%: ', nextProps)
+
+        PubSub.publish('updateInputs', nextProps.cross);
+    }
+
+    onInputChange(event){
+        event.preventDefault()
+        PubSub.publish('updateInputs', event.target.value);
+    }
+
+    render() {
+
+        const oie = this.state.cross
+
+        return (<div>
+            Hello, haters! ${oie}
+
+            <Form>
+                <Form.Group>
+                    <Form.Input label='First name' placeholder='First Name' width={6} value={this.state.cross} onChange={this.onInputChange} />
+                    <Form.Input label='Middle Name' placeholder="Middle" width={4} />
+                    <Form.Input label='Last Name' placeholder='Last Name' width={6} />
+                </Form.Group>
+                <Form.Group>
+                    <Form.Input placeholder='2 Wide' width={2} />
+                    <Form.Input placeholder='12 Wide' width={12} />
+                    <Form.Input placeholder='2 Wide' width={2} />
+                </Form.Group>
+                <Form.Group>
+                    <Form.Input placeholder='8 Wide' width={8} />
+                    <Form.Input placeholder='6 Wide' width={6} />
+                    <Form.Input placeholder='2 Wide' width={2} />
+                </Form.Group>
+            </Form>
+
+        </div>)
+    }
+}
 
 const TextArea = (props) => (
   <div className="form-group">
@@ -86,7 +145,6 @@ class GenerecContainer extends React.Component {
 }
 
 const stateOptions = [{ key: 'AL', value: 'AL', text: 'Alabama' }, { key: 'BR', value: 'BR', text: 'Barazzil' }]
-
 
 export default (<cx>
     <h2 putInto="header"> Service Order</h2>
@@ -244,24 +302,9 @@ export default (<cx>
 
                             <div visible:expr="{$page.tab}=='tab2'">
 
-                                <Form>
-                                    <Form.Group>
-                                        <Form.Input label='First name' placeholder='First Name' width={6} value:bind="form.firstName" />
-                                        <Form.Input label='Middle Name' placeholder:bind="form.firstName" width={4} />
-                                        <Form.Input label='Last Name' placeholder='Last Name' width={6} />
-                                    </Form.Group>
-                                    <Form.Group>
-                                        <Form.Input placeholder='2 Wide' width={2} />
-                                        <Form.Input placeholder='12 Wide' width={12} />
-                                        <Form.Input placeholder='2 Wide' width={2} />
-                                    </Form.Group>
-                                    <Form.Group>
-                                        <Form.Input placeholder='8 Wide' width={8} />
-                                        <Form.Input placeholder='6 Wide' width={6} />
-                                        <Form.Input placeholder='2 Wide' width={2} />
-                                    </Form.Group>
-                                </Form>
                                 
+                                <Lol cross:bind="form.firstName"/>
+
                             </div>
                             
                             <div visible:expr="{$page.tab}=='tab3'">
