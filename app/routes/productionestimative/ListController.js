@@ -4,7 +4,7 @@ import { debounce } from 'cx/util'
 let lastQueryId = 0;
 
 export default class extends Controller {
-    
+
     onInit() {
         console.log(' ListController ')
 
@@ -16,6 +16,8 @@ export default class extends Controller {
         ]
 
         this.store.set('$page.options5', optionsArray);
+
+        this.store.set("$page.tab", "tab1");
 
     }
 }

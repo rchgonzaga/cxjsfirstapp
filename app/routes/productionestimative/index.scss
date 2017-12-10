@@ -1,6 +1,6 @@
 .pretable {
     width: 100%;
-    
+
     table {
         width: 100%;
 
@@ -20,6 +20,21 @@
             div {
                 width: 100%;
             }
+        }
+    }
+
+    textarea {
+        width: 100%;
+    }
+
+    .innertab {
+        margin-top: 12px;
+    }
+
+    .footer {
+        padding: 15px 0px 0px;
+        button + button {
+            margin-left: 10px;
         }
     }
 }

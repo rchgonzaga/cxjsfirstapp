@@ -1,105 +1,209 @@
-import { HtmlElement, Section, Select, FlexRow, TextField, Link, LinkButton, Repeater, Rescope, LookupField } from 'cx/widgets';
+import { 
+    HtmlElement, 
+    Section, 
+    Select, 
+    FlexRow, 
+    TextField, 
+    Link, 
+    LinkButton, 
+    Repeater, 
+    Rescope, 
+    LookupField, 
+    TextArea, 
+    Tab, 
+    Button, 
+    MsgBox,
+    Menu,
+    MenuItem,
+    Submenu,
+    Checkbox,
+    DateField,
+    ValidationGroup
+} from 'cx/widgets';
+
+import { LabelsTopLayout, VDOM } from 'cx/ui';
+import React from "react"
 
 import Controller from './ListController';
 import "cx/widgets/icons";
-import { LabelsTopLayout } from 'cx/ui';
+import Prelog from '../../components/util/Prelog'
+
+import { Icon, Header, Breadcrumb } from 'semantic-ui-react'
 
 const labels = {
-    routeTitle: "Estimativas",
-    buttonLabel: 'Novo'
+    routeTitle: "Person",
+    buttonLabel: "Novo",
+    buttonSave: "Save",
+    buttonCancel: "Cancel",
+    buttonDelete: "Delete"
 }
 
-//layout={{type: LabelsTopLayout, mod: 'stretch', vertical: true}}
+const activeItem = 'home'
 
 export default (<cx>
 
     <h2 putInto="header">{labels.routeTitle}</h2>
     <Rescope bind="$page" controller={Controller}>
 
+    <form>
+        <ValidationGroup
+            layout={{ type: LabelsTopLayout, mod: 'stretch', vertical: true }}
+            invalid:bind="$page.form.invalid">
 
-    <FlexRow pad spacing wrap class="presentation">
-            <div style={`width: 30%;`}>
+            <div style={`padding: 0px 15px;`}>
+                        
+                        <FlexRow spacing target="tablet">
+                            <div style="flex: 1;">
+                                <Breadcrumb style={`padding: 11px 0px 5px; `}>
+                                    <Breadcrumb.Section link><Icon name='dashboard' /> Dashboard</Breadcrumb.Section>
+                                    <Breadcrumb.Divider />
+                                    <Breadcrumb.Section link><Icon name='adn' /> Admin</Breadcrumb.Section>
+                                    <Breadcrumb.Divider />
+                                    <Breadcrumb.Section active><Icon name='line chart' />Production Estimatives</Breadcrumb.Section>
+                                </Breadcrumb>
+                            </div>
+                            <div style="flex: 1;">
+                                <div style="    margin-top: 5px;margin-bottom: -7px;width: 43px;float: right;">
+                                    <Menu horizontal>
+                                    <Submenu style="display: -webkit-inline-box;">
+                                        <Icon name='setting' style="margin: 5px -8px 0px 0px;"/> File
+                                        <Menu putInto="dropdown">
+                                            <a
+                                                href="#"
+                                                onClick={e => {
+                                                    e.preventDefault();
+                                                    MsgBox.alert('Primary');
+                                                }}
+                                            >
+                                                <Icon name='cloud download' /> Export
+                                            </a>
+                                            <hr style="border: 0;height: 1px;background: #c0c0c0;margin: 0px 7px;"/>
+                                            <a
+                                                href="#"
+                                                onClick={e => {
+                                                    e.preventDefault();
+                                                    MsgBox.alert('Primary');
+                                                }}
+                                            >
+                                                <Icon name='cloud upload' /> Import
+                                            </a>
+                                            <hr style="border: 0;height: 1px;background: #c0c0c0;margin: 0px 7px;"/>
+                                            <a
+                                                href="#"
+                                                onClick={e => {
+                                                    e.preventDefault();
+                                                    MsgBox.alert('Primary');
+                                                }}
+                                            >
+                                                <Icon name='share' /> Share
+                                            </a>
 
-                <Section mod="card">
-                    <FlexRow spacing>
-                        <TextField
-                            value: bind="search"
-                            placeholder="Search..."
-                            style="flex: 1 2 0"
-                            inputStyle="border-color: transparent; box-shadow: none; font-size: 16px"
-                            icon:expr="{status}=='loading' ? 'loading' : 'search'"
-                            showClear
-                        />
+                                        </Menu>
+                                    </Submenu>
+                                    </Menu>
+                                </div>
+                            </div>
+                        </FlexRow>
 
-                        <LookupField
-                            value: bind="$page.s5.id"
-                            text:bind="$page.s5.text"
-                            options:bind="$page.options5"
-                        />
-
-                        <LinkButton mod="hollow" href="~/users/new">{labels.buttonLabel}</LinkButton>
-                    </FlexRow>
-                </Section>
-
-                <FlexRow spacing wrap style="margin-top: 15px">
-                    <Repeater records: bind="results" recordAlias="$user" idField="id">
-                        <Link href: tpl="~/users/{$user.id}" class="user-card">
-                        <Section mod="card" class="user-card-body">
-                            <img src="http://placehold.it/50x50" />
-                            <h6 text: bind="$user.display"/>
-                            @<span text: bind="$user.username"/>
-                        </Section>
-                        </Link>
-                    </Repeater>
-                </FlexRow>
-                
-            </div>
-            <div style={`width: 68%;`}>
-                <Section mod="card">
-
-
+                    <hr/>
+                    
                     <div class="pretable">
                         <div layout={{type: LabelsTopLayout, mod: 'stretch'}}>
-                            <Select
-                                value:bind="$page.title"
-                                label="Title">
-                                <option value="Mr">Mr.</option>
-                                <option value="Mrs">Mrs.</option>
-                            </Select>
-
                             <TextField
-                                value:bind="$page.firstName"
+                                value:bind="$page.form.firstName"
                                 label="Name"
                                 placeholder="First Name"
+                                validationMode="help-block" 
+                                reactOn="enter blur change"
+                                onValidate={(v) => { if (v != 'Cx') return 'Oops, wrong answer!' }}
                             />
 
                             <TextField
-                                value:bind="$page.lastName"
+                                value:bind="$page.form.lastName"
+                                label="Last name"
                                 placeholder="Last Name"
                             />
                         </div>
                         <div layout={{type: LabelsTopLayout, mod: 'stretch'}}>
+                            <Select
+                                value:bind="$page.form.title"
+                                label="Salary review">
+                                <option value="0"></option>
+                                <option selected value="1">Janeiro</option>
+                                <option value="2">Fevereiro</option>
+                                <option value="3">Março</option>
+                                <option value="4">Abril</option>
+                                <option value="5">Maio</option>
+                                <option value="6">Junho</option>
+                                <option value="7">Julho</option>
+                                <option value="8">Agosto</option>
+                                <option value="9">Setembro</option>
+                                <option value="10">Outubro</option>
+                                <option value="11">Novembro</option>
+                                <option value="12">Dezembro</option>
+                            </Select>
+                            
                             <TextField
-                                value:bind="$page.street"
+                                value:bind="$page.form.street"
                                 label="Address"
-                                placeholder="Street"
+                                placeholder="Rua Fulano de Tal, 300"
                             />
                             <TextField
-                                value:bind="$page.city"
+                                value:bind="$page.form.city"
+                                label="City"
                                 placeholder="City"
                             />
                             <TextField
-                                value:bind="$page.zip"
+                                value:bind="$page.form.zip"
+                                lable="Zip"
                                 placeholder="Zip"
                             />
                         </div>
+                        <div layout={{ type: LabelsTopLayout, mod: 'stretch' }}>
+                           <TextArea 
+                            label="Description" 
+                            value:bind="$pageform.text" 
+                            rows={3}
+                            placeholder="Everything that describes this person at work" />
+                        </div>
+
+                        <div class="innertab">
+                            <div style="white-space:nowrap;">
+                                <Tab tab="tab1" value:bind="$page.tab" mod="classic"><Icon name='history' /> History</Tab>
+                                <Tab tab="tab2" value:bind="$page.tab" mod="classic"><Icon name='file' /> Files</Tab>
+                                <Tab tab="tab3" value:bind="$page.tab" mod="classic"><Icon name='list' /> Logs</Tab>
+                            </div>
+                            <div style="border: 1px solid lightgray; background: white; padding: 20px">
+                                <div visible:expr="{$page.tab}=='tab1'">Tab 1</div>
+                                <div visible:expr="{$page.tab}=='tab2'">Tab 2</div>
+                                <div visible:expr="{$page.tab}=='tab3'">Tab 3</div>
+                            </div>
+                        </div>
+
+                        <div class="footer">
+                            
+                            <Button mod="primary" onClick={() => { MsgBox.alert('Primary') }} disabled:bind="$page.form.invalid">{labels.buttonSave}</Button>
+                            <Button onClick={() => { MsgBox.alert('Disabled') }}>{labels.buttonCancel}</Button>
+                            <Button mod="danger" confirm="You clicked the danger button. Are you sure that you want to proceed?"
+                                onClick={() => {
+                                    MsgBox.alert('Danger')
+                                }}>
+                                {labels.buttonDelete}
+                            </Button>
+
+                        </div>
+
+
                     </div>
 
-                    
-                </Section>
             </div>
-    </FlexRow>
-    
+
+        </ValidationGroup>
+    </form >
+
+
+            <Prelog log:bind="$page.form"/>
+
 
    </Rescope >
 

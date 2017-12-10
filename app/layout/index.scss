@@ -79,7 +79,7 @@ $small-device-width: 800px;
 }
 
 .main {
-   padding: 5.5rem 1rem 1rem;
+   padding: 4.6rem 0rem 1rem;
    transition: all 0.2s linear;
    height: 100%;
    box-sizing: border-box;
@@ -110,4 +110,10 @@ p {
 
 .layout.nav {
 
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background: #c0c0c0;
 }
