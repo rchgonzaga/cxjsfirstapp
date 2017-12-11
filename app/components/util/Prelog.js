@@ -14,12 +14,12 @@ class Prelog extends React.Component {
     }
 
     handleClick() {
-        console.log(this); // React Component instance
+        console.log(this.props); // React Component instance
     }
 
     render() {
         return (
-            <pre>
+            <pre onClick={this.handleClick}>
                 {JSON.stringify(this.props.log)}
             </pre>
         );

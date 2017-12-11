@@ -115,7 +115,7 @@ export default (<cx>
                                 placeholder="First Name"
                                 validationMode="help-block" 
                                 reactOn="enter blur change"
-                                onValidate={(v) => { if (v != 'Cx') return 'Oops, wrong answer!' }}
+                                onValidate={(v) => { if (v != 'Cx' || v == null) return 'Oops, wrong answer!' }}
                             />
 
                             <TextField
@@ -162,7 +162,7 @@ export default (<cx>
                         <div layout={{ type: LabelsTopLayout, mod: 'stretch' }}>
                            <TextArea 
                             label="Description" 
-                            value:bind="$pageform.text" 
+                            value:bind="$page.form.text" 
                             rows={3}
                             placeholder="Everything that describes this person at work" />
                         </div>
@@ -201,9 +201,7 @@ export default (<cx>
         </ValidationGroup>
     </form >
 
-
-            <Prelog log:bind="$page.form"/>
-
+    <Prelog log:bind="$page.form"/>
 
    </Rescope >
 

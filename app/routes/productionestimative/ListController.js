@@ -18,6 +18,7 @@ export default class extends Controller {
         this.store.set('$page.options5', optionsArray);
 
         this.store.set("$page.tab", "tab1");
+        this.store.set("$page.form.invalid", true);
 
     }
 }
