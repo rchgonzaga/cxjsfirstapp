@@ -18,10 +18,14 @@ import {
     Submenu,
     Checkbox,
     DateField,
-    ValidationGroup
+    ValidationGroup,
+    Grid,
+    NumberField
 } from 'cx/widgets';
 
-import { LabelsTopLayout, VDOM } from 'cx/ui';
+import Lov from './Lov';
+
+import { LabelsTopLayout, LabelsLeftLayout, VDOM } from 'cx/ui';
 import React from "react"
 
 import Controller from './ListController';
@@ -173,8 +177,129 @@ export default (<cx>
                                 <Tab tab="tab2" value:bind="$page.tab" mod="classic"><Icon name='file' /> Files</Tab>
                                 <Tab tab="tab3" value:bind="$page.tab" mod="classic"><Icon name='list' /> Logs</Tab>
                             </div>
-                            <div style="border: 1px solid lightgray; background: white; padding: 20px">
-                                <div visible:expr="{$page.tab}=='tab1'">Tab 1</div>
+                            <div class="tabContainer">
+                                <div visible:expr="{$page.tab}=='tab1'">
+                                
+                                <div trimWhitespace={false} style="background-color: #eeeeee;padding: 5px;">
+                                    {/*
+                                    <TextField value:bind="$page.toolbar.name" label="Name" />
+                                    &nbsp;
+                                    <TextField value:bind="$page.toolbar.lastname" label="Last name" />
+                                    &nbsp;
+                                    <Button mod="primary" onClick={() => { MsgBox.alert('Primary') }}>Primary</Button>
+                                    &nbsp;*/}
+                                    
+                                    <Button onClick="addRow" mod="primary">Add item</Button>
+                                    <Button onClick={(e, {store}) => { store.set('$page.contact.visible', true)}}>Open</Button>
+
+                                </div>
+
+                                <hr/>
+
+
+                                <Grid
+                                    records:bind="$page.records.records"
+                                    lockColumnWidths
+                                    style={{ height: "280px" }}
+                                    mod="responsive"
+                                    scrollable
+                                    cached
+                                    row={{
+                                        style: {
+                                            background: {expr: "!!{$record.$editing} ? 'lightsteelblue' : null"}
+                                        },
+                                        valid: { bind: '$record.valid' }
+                                    }}
+                                    columns={[
+                                        {
+                                            header: "Name",
+                                            field: "fullName",
+                                            sortable: true,
+                                            items: <cx>
+                                                <TextField
+                                                    value:bind="$record.fullName"
+                                                    viewMode:expr="!{$record.$editing}"
+                                                    style="width: 100%"
+                                                    autoFocus
+                                                    required
+                                                />
+                                            </cx>
+                                        },
+                                        {
+                                            header: "Continent",
+                                            field: "continent",
+                                            sortable: true,
+                                            items: <cx>
+                                                <TextField
+                                                    value:bind="$record.continent"
+                                                    viewMode:expr="!{$record.$editing}"
+                                                    style="width: 100%"
+                                                    required
+                                                />
+                                            </cx>
+                                        },
+                                        {
+                                            header: "Browser",
+                                            field: "browser",
+                                            sortable: true,
+                                            items: <cx>
+                                                <TextField
+                                                    value:bind="$record.browser"
+                                                    viewMode:expr="!{$record.$editing}"
+                                                    style="width: 100%"
+                                                    required
+                                                />
+                                            </cx>
+                                        },
+                                        {
+                                            header: "OS",
+                                            field: "os",
+                                            sortable: true,
+                                            items: <cx>
+                                                <TextField
+                                                    value:bind="$record.os"
+                                                    viewMode:expr="!{$record.$editing}"
+                                                    style="width: 100%"
+                                                    required
+                                                />
+                                            </cx>
+                                        },
+                                        {
+                                            header: "Visits",
+                                            field: "visits",
+                                            sortable: true,
+                                            align: "right",
+                                            items: <cx>
+                                                <NumberField
+                                                    value:bind="$record.visits"
+                                                    viewMode:expr="!{$record.$editing}"
+                                                    style="width: 100%"
+                                                    inputStyle="text-align: right"
+                                                    required
+                                                />
+                                            </cx>
+                                        }, {
+                                            header: 'Actions',
+                                            style: "width: 150px",
+                                            align:"center",
+                                            items: <cx>
+                                                <Button mod="hollow" onClick="editRow" visible:expr="!{$record.$editing}">Edit</Button>
+                                                <Button mod="hollow" onClick="deleteRow" visible:expr="!{$record.$editing}" confirm="Are you sure?">Delete</Button>
+                                                <Button mod="primary" onClick="saveRow" disabled:expr="!{$record.valid}" visible:expr="!!{$record.$editing}">Save</Button>
+                                                <Button mod="hollow" onClick="cancelRowEditing" visible:expr="!!{$record.$editing}">Cancel</Button>
+                                            </cx>
+                                        }
+                                    ]}
+                                />
+
+
+
+
+
+
+
+
+                                </div>
                                 <div visible:expr="{$page.tab}=='tab2'">Tab 2</div>
                                 <div visible:expr="{$page.tab}=='tab3'">Tab 3</div>
                             </div>
@@ -201,7 +326,10 @@ export default (<cx>
         </ValidationGroup>
     </form >
 
+    <Lov/>
+
     <Prelog log:bind="$page.form"/>
+    <Prelog log:bind="$page.records.records"/>
 
    </Rescope >
 
