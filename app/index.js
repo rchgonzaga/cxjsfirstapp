@@ -3,6 +3,7 @@ import { Url, History, Widget, startAppLoop } from 'cx/ui';
 import { Timing, Debug } from 'cx/util';
 
 //css
+//import 'antd/dist/antd.css'
 import "./index.scss";
 
 //store

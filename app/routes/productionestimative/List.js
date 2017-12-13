@@ -34,6 +34,8 @@ import Prelog from '../../components/util/Prelog'
 
 import { Icon, Header, Breadcrumb } from 'semantic-ui-react'
 
+import { Grid as GridF, Row, Col } from 'react-flexbox-grid';
+
 const labels = {
     routeTitle: "Person",
     buttonLabel: "Novo",
@@ -67,7 +69,7 @@ export default (<cx>
                                 </Breadcrumb>
                             </div>
                             <div style="flex: 1;">
-                                <div style="    margin-top: 5px;margin-bottom: -7px;width: 43px;float: right;">
+                                <div style="margin-top: 5px;margin-bottom: -7px;width: 43px;float: right;">
                                     <Menu horizontal>
                                     <Submenu style="display: -webkit-inline-box;">
                                         <Icon name='setting' style="margin: 5px -8px 0px 0px;"/> File
@@ -300,7 +302,15 @@ export default (<cx>
 
 
                                 </div>
-                                <div visible:expr="{$page.tab}=='tab2'">Tab 2</div>
+                                <div visible:expr="{$page.tab}=='tab2'">
+                                    <GridF fluid>
+                                        <Row>
+                                            <Col xs={12} sm={3} md={2} lg={1}>a</Col>
+                                            <Col xs={6} sm={6} md={8} lg={10}>b</Col>
+                                            <Col xs={6} sm={3} md={2} lg={1}>c</Col>
+                                        </Row>
+                                    </GridF>
+                                </div>
                                 <div visible:expr="{$page.tab}=='tab3'">Tab 3</div>
                             </div>
                         </div>
